@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array Insert Animation</title>
+    <style>
+        .container {
+            display: flex;
+            margin: 20px;
+        }
+        .box {
+            width: 120px;
+            height: 60px;
+            border: 2px solid #333;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Array Insert Animation</h1>
+    <div class="container" id="arrayContainer"></div>
+    <button onclick="startAnimation()">Start Animation</button>
+    
+    <script>
+        // Initial array state
+        var breakfast = ["coffee", "croissant"];
+
+        // Create visual boxes for each array element
+        function createVisualArray(arr) {
+            const container = document.getElementById("arrayContainer");
+            container.innerHTML = ''; // Clear previous boxes
+            arr.forEach((item, index) => {
+                const box = document.createElement("div");
+                box.className = "box";
+                box.id = "box-" + index;
+                // Show undefined as an empty string
+                box.textContent = item ? item : "";
+                container.appendChild(box);
+            });
+        }
+
+        // Helper function to pause execution
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Animation controller - resets array and starts the animated insertion
+        async function startAnimation(){
+            breakfast = ["coffee", "croissant"]; // reset to initial state
+            createVisualArray(breakfast);
+            await sleep(1000);  // wait 1 second before starting
+
+            await insertAtAnimated(breakfast, 1, "eggs");
+        }
+
+        // Animated version of insertAt without using built-in array algorithms like splice
+        async function insertAtAnimated(arr, index, value){
+            // Step 1: Extend the array by adding an undefined item at the end
+            arr[arr.length] = undefined;
+            createVisualArray(arr);
+            console.log("Extended:", arr);
+            await sleep(1000);
+
+            // Step 2: Shift elements to the right starting from the end
+            for (let i = arr.length - 1; i > index; i--){
+                arr[i] = arr[i - 1];
+                createVisualArray(arr);
+                console.log(`After shifting index ${i}:`, arr);
+                await sleep(1000);
+            }
+            // Step 3: Insert the new value at the given index
+            arr[index] = value;
+            createVisualArray(arr);
+            console.log("After inserting:", arr);
+            await sleep(1000);
+        }
+    </script>
+</body>
+</html>
