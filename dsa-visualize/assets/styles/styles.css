@@ -19,6 +19,10 @@
   
   /* Array bar styling */
   .bar {
-    display: inline-block;
     background-color: teal;
+    transition: background-color 0.5s ease, transform 0.5s ease;
+  }
+  
+  .bar.newly-added {
+    background-color: orange;
   }

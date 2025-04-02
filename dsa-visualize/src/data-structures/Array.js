@@ -33,7 +33,7 @@ class ArrayStructure {
 
             // Call the callback with the current state, if provided
             if (onSwap && typeof onSwap === 'function') {
-              onSwap(arr);
+              onSwap(arr, [i, i + 1]);
             }    
 
             await this.sleep(10); // pause for 400ms between swaps

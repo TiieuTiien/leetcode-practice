@@ -3,6 +3,7 @@ import DragDrop from './drag-drop/drag-drop.js'; // Import the DragDrop class
 
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("startButton");
+  const insertButton = document.getElementById("insertButton");
   const arrayContainer = document.getElementById("arrayContainer");
 
   let arrayStructure = new ArrayStructure(30); // Create an instance of the array with 20 elements
@@ -12,28 +13,34 @@ document.addEventListener("DOMContentLoaded", () => {
   let dragDropInstance;
 
   // Function to render the array as bars
-  function renderArray(arr) {
+  function renderArray(arr, highlightIndices = null) {
     arrayContainer.innerHTML = ''; // Clear the previous array content
-
+  
     arr.forEach((value, index) => {
       const bar = document.createElement('div');
       bar.classList.add('bar');
+      
+      if (highlightIndices !== null) {
+        if (Array.isArray(highlightIndices)){
+          if (highlightIndices.includes(index)) {
+            bar.classList.add('newly-added');
+          }
+        } else if (index === highlightIndices) {
+          bar.classList.add("newly-added");
+        }
+      }
+      
       bar.style.height = `${value * 3}px`; // Height of the bar
       bar.style.width = '30px'; // Width of the bar
       bar.style.margin = '0 5px'; // Margin between bars
-      bar.style.backgroundColor = 'teal'; // Color of the bar
       bar.dataset.index = index; // Store the index of the array element on the bar
       arrayContainer.appendChild(bar);
     });
-
-    // Create the DragDrop instance only once.
+  
     if (!dragDropInstance) {
       dragDropInstance = new DragDrop(arrayContainer, arr, renderArray);
-    }
-    else {
-      // Update the instance's array reference if needed.
+    } else {
       dragDropInstance.array = arr;
-      // Reinitialize drag listeners on the new elements.
       dragDropInstance.enableDragAndDrop();
     }
   }
@@ -44,5 +51,19 @@ document.addEventListener("DOMContentLoaded", () => {
   startButton.addEventListener("click", async () => {
     // Pass renderArray as the callback so it gets called after each swap.
     await arrayStructure.bubbleSortAnimated(arrayStructure.getArray(), renderArray);
+
+    renderArray(array);
   });
+  
+  insertButton.addEventListener("click", () => {
+    const randomIndex = Math.floor(Math.random() * (array.length + 1));
+    const randomValue = Math.floor(Math.random() *  100) + 1;
+    arrayStructure.insertAt(randomIndex, randomValue);
+
+    // Update the predefined array
+    array = arrayStructure.getArray();
+
+    renderArray(array, randomIndex);
+  });
+
 });

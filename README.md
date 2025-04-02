@@ -1,5 +1,6 @@
 # dsa-visualize
 
+```
 /dsa-visualize
 ├── /assets
 │   ├── /images            # Any static images or icons
@@ -21,3 +22,4 @@
 ├── package.json          # Project dependencies and scripts
 ├── .gitignore             # Git ignore file to exclude node_modules, build, etc.
 └── README.md              # A readme for the project details
+```

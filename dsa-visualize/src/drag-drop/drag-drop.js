@@ -45,12 +45,11 @@ export default class DragDrop {
     const draggedIndex = e.dataTransfer.getData('text/plain');
     const targetIndex = e.target.dataset.index;
 
-    console.log("Before: "+ this.array);
+    console.log(`Index: [${draggedIndex},${targetIndex}], ` + `Value: [${this.array[draggedIndex]},${this.array[targetIndex]}]`);
     // Swap the values in the array based on the indices
     const temp = this.array[draggedIndex];
     this.array[draggedIndex] = this.array[targetIndex];
     this.array[targetIndex] = temp;
-    console.log("After:  " + this.array);
 
     // Re-render the array using the provided function
     this.renderArray(this.array);
