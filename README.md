@@ -1,5 +1,7 @@
 # dsa-visualize
 
+[Array Visualization](/dsa-visualize/public/index.html)
+
 ```
 /dsa-visualize
 ├── /assets
